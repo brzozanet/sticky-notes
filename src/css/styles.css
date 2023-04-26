@@ -3,5 +3,9 @@
 @import 'tailwindcss/utilities';
 
 .sticky-wrapper {
-  min-height: 500px;
+  min-height: 400px;
+}
+
+.border-inset {
+  border-style: inset;
 }
