@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 .sticky-wrapper {
-  min-height: 400px;
+  min-height: 600px;
 }
 
 .border-inset {

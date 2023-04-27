@@ -1,6 +1,9 @@
 import "../css/styles.css";
 import "toastify-js/src/toastify.css";
 
+import editIconFile from "../img/edit.svg";
+import trashIconFile from "../img/trash.svg";
+
 import Toastify from "toastify-js";
 import { StickyNotesState } from "./state";
 
@@ -11,7 +14,11 @@ const stickyNotesEl = document.querySelector("#sticky-notes");
 const ENTER_KEY = "Enter";
 const ENTER_KEY_NUM = "NumpadEnter";
 const STICKY_CLASSLIST =
-  "border-2 border-black-500 w-48 min-h-24 p-4 bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500";
+  "border-2 border-black-500 w-48 h-40 p-4 relative bg-gradient-to-r from-green-400 to-blue-500";
+const EDIT_ICON_CLASSLIST =
+  "absolute top-0 right-0 cursor-pointer opacity-50 hover:opacity-100 mt-4 mr-2";
+const TRASH_ICON_CLASSLIST =
+  "absolute bottom-0 right-0 cursor-pointer opacity-50 hover:opacity-100 mb-2 mr-2";
 
 const stickyNotesState = new StickyNotesState();
 stickyNotesState.loadStickyNotes();
@@ -39,13 +46,25 @@ const pressEnter = event => {
 };
 
 inputEl.addEventListener("mouseout", pressEnter);
-inputEl.addEventListener("blur", pressEnter);
+// inputEl.addEventListener("blur", pressEnter);
 
 const createStickyNote = value => {
   const stickyEl = document.createElement("div");
   stickyEl.classList.add(...STICKY_CLASSLIST.split(" "));
   stickyNotesEl.appendChild(stickyEl);
   stickyEl.innerHTML = value;
+
+  const editIcon = new Image(24, 24);
+  editIcon.src = editIconFile;
+  editIcon.classList.add(...EDIT_ICON_CLASSLIST.split(" "));
+  const trashIcon = new Image(24, 24);
+  trashIcon.src = trashIconFile;
+  trashIcon.classList.add(...TRASH_ICON_CLASSLIST.split(" "));
+  stickyEl.append(editIcon, trashIcon);
+
+  editIcon.addEventListener("click", () => {
+    // bla bla bla...
+  });
 };
 
 stickyNotesState.state.forEach(note => createStickyNote(note.text));
