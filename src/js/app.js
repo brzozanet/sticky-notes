@@ -1,4 +1,7 @@
 import "../css/styles.css";
+import "toastify-js/src/toastify.css";
+
+import Toastify from "toastify-js";
 import { StickyNotesState } from "./state";
 
 const inputEl = document.querySelector("#sticky-add");
@@ -22,6 +25,22 @@ inputEl.addEventListener("keyup", event => {
   }
 });
 
+const pressEnter = event => {
+  if (event.currentTarget.value !== "") {
+    Toastify({
+      text: "Naciśnij klawisz ENTER, aby dodać notatkę",
+      duration: 4000,
+      gravity: "top",
+      position: "center",
+      backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+    }).showToast();
+    // alert("Naciśnij klawisz ENTER, aby dodać notatkę");
+  }
+};
+
+inputEl.addEventListener("mouseout", pressEnter);
+inputEl.addEventListener("blur", pressEnter);
+
 const createStickyNote = value => {
   const stickyEl = document.createElement("div");
   stickyEl.classList.add(...STICKY_CLASSLIST.split(" "));
@@ -29,7 +48,7 @@ const createStickyNote = value => {
   stickyEl.innerHTML = value;
 };
 
-stickyNotesState.state.forEach((note) => createStickyNote(note.text));
+stickyNotesState.state.forEach(note => createStickyNote(note.text));
 
 deleteBtnEl.addEventListener("click", () => {
   stickyNotesEl.innerHTML = "";
