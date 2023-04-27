@@ -26,8 +26,16 @@ stickyNotesState.loadStickyNotes();
 inputEl.addEventListener("keyup", event => {
   if (event.code === ENTER_KEY || event.code === ENTER_KEY_NUM) {
     const noteText = event.currentTarget.value;
-    createStickyNote(noteText);
-    stickyNotesState.addStickyNote(noteText);
+    createStickyNote({
+      value: noteText,
+      onEdit: onEditNote,
+      onTrash: onTrashNote,
+      });
+    stickyNotesState.addStickyNote({
+      value: noteText,
+      onEdit: onEditNote,
+      onTrash: onTrashNote,
+    });
     event.currentTarget.value = "";
   }
 });
@@ -48,26 +56,33 @@ const pressEnter = event => {
 inputEl.addEventListener("mouseout", pressEnter);
 // inputEl.addEventListener("blur", pressEnter);
 
-const createStickyNote = value => {
+const createStickyNote = ({ value, onEdit, onTrash }) => {
   const stickyEl = document.createElement("div");
   stickyEl.classList.add(...STICKY_CLASSLIST.split(" "));
   stickyNotesEl.appendChild(stickyEl);
   stickyEl.innerHTML = value;
 
   const editIcon = new Image(24, 24);
-  editIcon.src = editIconFile;
-  editIcon.classList.add(...EDIT_ICON_CLASSLIST.split(" "));
   const trashIcon = new Image(24, 24);
+  editIcon.src = editIconFile;
   trashIcon.src = trashIconFile;
+  editIcon.classList.add(...EDIT_ICON_CLASSLIST.split(" "));
   trashIcon.classList.add(...TRASH_ICON_CLASSLIST.split(" "));
   stickyEl.append(editIcon, trashIcon);
 
-  editIcon.addEventListener("click", () => {
-    // bla bla bla...
-  });
+  editIcon.addEventListener("click", onEdit);
+  trashIcon.addEventListener("click", onTrash);
 };
 
 stickyNotesState.state.forEach(note => createStickyNote(note.text));
+
+const onEditNote = () => {
+  console.log("EDIT");
+};
+
+const onTrashNote = () => {
+  console.log("TRASH");
+};
 
 deleteBtnEl.addEventListener("click", () => {
   stickyNotesEl.innerHTML = "";
