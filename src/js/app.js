@@ -1,3 +1,5 @@
+// GoIT [JS_10] Zdarzenia
+
 import "../css/styles.css";
 import "toastify-js/src/toastify.css";
 
